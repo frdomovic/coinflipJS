@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Coin Flip</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="coin" id="coin">
+        <div class="heads">
+          <img src="./resources/heads.png" alt="coin_heads" />
+        </div>
+        <div class="tails">
+          <img src="./resources/tails.png" alt="coin_tails" />
+        </div>
+      </div>
+
+      <div class="stats">
+        <p id="heads-count">
+          Heads: 0
+        </p>
+        <p id="tails-count">Tails: 0</p>
+      </div>
+      <div class="buttons">
+        <button class="flip" id="flip-button">FLIP</button>
+        <button class="reset" id="reset-button">RESET</button>
+      </div>
+      <div id="guessed-pick">YOUR GUESS:</div>
+      <div class="guess">
+        <button class="guess-tails" id="guess-tails">TAILS</button>
+        <button class="guess-heads" id="guess-heads">HEADS</button>
+      </div>
+    </div>
+  </body>
+  <script type="text/javascript">
+    let coin = document.querySelector('.coin')
+    let flipBtn = document.querySelector('#flip-button')
+    let resetBtn = document.querySelector('#reset-button')
+    let tailsGuess = document.querySelector('#guess-tails')
+    let headsGuess = document.querySelector('#guess-heads')
+    let pick = document.querySelector('#guessed-pick')
+
+    let heads = 0
+    let tails = 0
+
+    flipBtn.addEventListener('click', () => {
+      let i = Math.floor(Math.random() * 2)
+      coin.style.animation = 'none'
+      if (i) {
+        setTimeout(function () {
+          coin.style.animation = 'spin-heads 3s forwards'
+        }, 100)
+        heads++
+      } else {
+        setTimeout(function () {
+          coin.style.animation = 'spin-tails 3s forwards'
+        }, 100)
+        tails++
+      }
+      setTimeout(updateStats, 3000)
+      disableButton()
+    })
+    function updateStats () {
+      document.querySelector('#heads-count').textContent = `Heads: ${heads}`
+      document.querySelector('#tails-count').textContent = `Tails: ${tails}`
+    }
+    resetBtn.addEventListener('click', () => {
+      heads = 0
+      tails = 0
+      document.querySelector('#heads-count').textContent = `Heads: 0`
+      document.querySelector('#tails-count').textContent = `Tails: 0`
+    })
+    function disableButton () {
+      flipBtn.disabled = true
+      setTimeout(function () {
+        flipBtn.disabled = false
+      }, 3000)
+    }
+
+    tailsGuess.addEventListener('click', () => {
+      changeGuess(1)
+    })
+    headsGuess.addEventListener('click', () => {
+      changeGuess(0)
+    })
+    function changeGuess (pick) {
+      if (pick === 1) {
+        document.getElementById('guessed-pick').textContent = 'YOUR PICK: TAILS'
+      } else {
+        document.getElementById('guessed-pick').textContent = 'YOUR PICK: HEADS'
+      }
+    }
+  </script>
+</html>
